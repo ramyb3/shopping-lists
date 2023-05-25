@@ -34,6 +34,7 @@ export default function AddProducts({
     if (arr.length === 0) {
       setLoading(false);
       setOpen(false);
+      setInputFields([{ name: "", quantity: NaN }]);
       return;
     }
 

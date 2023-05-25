@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>רשימת קניות באופן מקוון</title>
+        <title>רשימת קניות מקוונת</title>
       </Head>
       <MainPage />
     </>

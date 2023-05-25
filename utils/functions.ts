@@ -43,7 +43,7 @@ export async function fetchData(email: string, method: string, value?: any) {
     ? "num"
     : method.includes("save")
     ? "products"
-    : method.includes("delete")
+    : method.includes("delete") || method.includes("collected")
     ? "product"
     : "allProducts";
 

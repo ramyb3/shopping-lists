@@ -33,7 +33,23 @@ export const signUp = async (email: any) => {
 export const deleteProduct = async (obj: any) => {
   return await User.findOneAndUpdate(
     { email: obj.email },
-    { $pull: { realTimeList: { name: obj.product.name } } }
+    {
+      $pull: {
+        realTimeList: { name: obj.product.name },
+        collectedProducts: { name: obj.product.name },
+      },
+    }
+  );
+};
+
+export const addProductToCollected = async (obj: any) => {
+  return await User.findOneAndUpdate(
+    { email: obj.email },
+    {
+      $push: {
+        collectedProducts: obj.product,
+      },
+    }
   );
 };
 
@@ -56,7 +72,7 @@ export const updateLists = async (obj: any) => {
   return await User.findOneAndUpdate(
     { email: obj.email },
     {
-      $set: { realTimeList: [] },
+      $set: { realTimeList: [], collectedProducts: [] },
       $push: {
         lists: {
           products: obj.allProducts,

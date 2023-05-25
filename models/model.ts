@@ -16,6 +16,7 @@ const userSchema = new Schema({
   verification: Number,
   lists: Array<List>,
   realTimeList: Array<Product>,
+  collectedProducts: Array<Product>,
 });
 
 const User = models.User || model("users", userSchema);
