@@ -16,8 +16,11 @@ export default function RealTimeList({
   email: string;
 }) {
   const [allProducts, setAllProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const removeProduct = async (product: Product) => {
+    setLoading(true);
+
     const arr = products.filter((item) => item.name !== product.name);
     setProducts(arr);
 
@@ -30,6 +33,8 @@ export default function RealTimeList({
     } catch (e: any) {
       console.error(e);
     }
+
+    setLoading(false);
   };
 
   const collectedProduct = async (product: Product) => {
@@ -52,6 +57,8 @@ export default function RealTimeList({
       return;
     }
 
+    setLoading(true);
+
     try {
       await fetchData(email, "finishshopping", allProducts);
     } catch (e: any) {
@@ -60,11 +67,14 @@ export default function RealTimeList({
 
     setProducts([]);
     setList(false);
+    setLoading(false);
   };
 
   return (
     <div className="flex flex-col gap-6 p-2 border-2 border-black sm:min-w-[500px] max-w-[300px]">
       <div className="max-h-[350px] sm:max-h-[600px] overflow-y-auto">
+        {loading && <h3>טוען...</h3>}
+
         {products.map((product, index) => {
           const isCollected = allProducts.find(
             (item) => item.name === product.name

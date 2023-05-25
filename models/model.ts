@@ -1,6 +1,6 @@
 import { Schema, model, models } from "mongoose";
 
-type List = {
+export type List = {
   date: string;
   products: Product[];
 };

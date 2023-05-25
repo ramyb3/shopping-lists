@@ -11,12 +11,9 @@ export default function MainPage() {
   const [num, setNum] = useState<number | undefined>(undefined);
   const [email, setEmail] = useState("");
 
-  // useEffect(() => {
-
-  // need to handle nodemailer with 2 sites with authontication
-
-  // sendMail("Site Enter");
-  // }, []);
+  useEffect(() => {
+    sendMail("Site Enter");
+  }, []);
 
   const login = async () => {
     if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
@@ -34,13 +31,13 @@ export default function MainPage() {
         setVerification(true);
         alert(resp.data.message);
 
-        // await sendMail(`First Sign- ${email}`);
+        await sendMail(`First Sign- ${email}`);
       } else {
         setVerification(false);
         setAuthorized(true);
         setOpen(false);
 
-        // await sendMail(`Logged in- ${email}`);
+        await sendMail(`Logged in- ${email}`);
       }
     } catch (e) {
       alert("נסו שוב");
@@ -60,7 +57,7 @@ export default function MainPage() {
       setAuthorized(true);
       setOpen(false);
 
-      // await sendMail(`Complete Sign Up- ${email}`);
+      await sendMail(`Complete Sign Up- ${email}`);
     } catch (e: any) {
       setNum(undefined);
       alert(e.response.data);

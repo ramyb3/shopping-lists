@@ -28,6 +28,8 @@ export default async function handler(
     return await saveProducts(req, res);
   } else if (req.body.method === "finishshopping") {
     return await finishShopping(req, res);
+  } else if (req.body.method === "gethistory") {
+    return await getHistory(req, res);
   }
 }
 
@@ -42,6 +44,7 @@ const logOrSign = async (req: NextApiRequest, res: NextApiResponse) => {
     const mailRes = await axios.post(process.env.NEXT_PUBLIC_MAIL, {
       email: req.body.email,
       verification,
+      site: process.env.NEXT_PUBLIC_SITE,
     });
 
     if (!mailRes) {
@@ -92,4 +95,9 @@ const saveProducts = async (req: NextApiRequest, res: NextApiResponse) => {
 const finishShopping = async (req: NextApiRequest, res: NextApiResponse) => {
   await updateLists(req.body);
   return res.json("");
+};
+
+const getHistory = async (req: NextApiRequest, res: NextApiResponse) => {
+  const obj = await findUser(req.body.email);
+  return res.json(obj.lists);
 };

@@ -82,6 +82,7 @@ export default function AddProducts({
     >
       <div className="flex flex-col items-center gap-4 py-5 px-2">
         <h1>הוספת מוצרים לרשימה</h1>
+        
         <div className="sm:max-h-[350px] max-h-[250px] overflow-y-auto">
           {inputFields.map((product, index) => {
             return (
@@ -121,6 +122,7 @@ export default function AddProducts({
           </button>
           <button onClick={addProducts}>שמור</button>
         </div>
+
         {loading && <h3>טוען...</h3>}
       </div>
     </Dialog>

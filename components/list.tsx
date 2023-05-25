@@ -9,9 +9,13 @@ export default function List({ email }: { email: string }) {
   const [list, setList] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
   const [open, setOpen] = useState(false);
+  const [showHistory, setShowHistory] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const getProducts = async () => {
+      setLoading(true);
+
       try {
         const resp = await fetchData(email, "getproducts");
 
@@ -20,14 +24,22 @@ export default function List({ email }: { email: string }) {
       } catch (e: any) {
         console.error(e);
       }
+
+      setLoading(false);
     };
 
     getProducts();
   }, []);
 
   return (
-    <div className="flex justify-center mt-14">
-      {!list ? (
+    <div
+      className={`flex mt-14 ${
+        showHistory ? "justify-around flex-wrap gap-3 p-1" : "justify-center"
+      }`}
+    >
+      {showHistory ? (
+        <History email={email} />
+      ) : !list ? (
         <button
           onClick={() => {
             if (products.length === 0) {
@@ -57,7 +69,17 @@ export default function List({ email }: { email: string }) {
         products={products}
         email={email}
       />
-      <History />
+
+      <div className="absolute top-3 right-3">
+        <button
+          className="text-sm"
+          onClick={() => setShowHistory(!showHistory)}
+        >
+          {!showHistory ? "היסטוריית קניות" : "חזרה לרשימה"}
+        </button>
+      </div>
+
+      {loading && <h3>טוען...</h3>}
     </div>
   );
 }

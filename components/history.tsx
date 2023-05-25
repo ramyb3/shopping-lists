@@ -1,11 +1,55 @@
-import { useState } from "react";
-import axios from "axios";
-import Dialog from "@mui/material/Dialog";
+import { List } from "@/models/model";
+import { fetchData } from "@/utils/functions";
+import { useEffect, useState } from "react";
 
-export default function History() {
+export default function History({ email }: { email: string }) {
+  const [data, setData] = useState<List[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const getHistory = async () => {
+      setLoading(true);
+
+      try {
+        const resp = await fetchData(email, "gethistory");
+
+        setData(resp.data);
+      } catch (e: any) {
+        console.error(e);
+      }
+
+      setLoading(false);
+    };
+
+    getHistory();
+  }, []);
+
   return (
-    <div className="absolute top-3 right-3">
-      <button className="text-sm">היסטוריית קניות</button>
-    </div>
+    <>
+      {loading && <h3>טוען...</h3>}
+
+      {data.map((obj, index) => {
+        return (
+          <div
+            className="flex flex-col h-[250px] w-[300px] overflow-y-auto gap-2 border-2 border-black"
+            key={index}
+          >
+            <h1>{obj.date}</h1>
+            
+            {obj.products.map((product, index1) => {
+              return (
+                <div
+                  className="flex justify-around gap-2 border-b-2 border-gray font-bold"
+                  key={index1}
+                >
+                  <div className="w-48">{product.name}</div>
+                  <div>{product.quantity}</div>
+                </div>
+              );
+            })}
+          </div>
+        );
+      })}
+    </>
   );
 }

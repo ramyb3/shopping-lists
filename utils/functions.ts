@@ -24,7 +24,7 @@ export async function sendMail(text: string) {
     const body = {
       resolution: `${window.screen.width} X ${window.screen.height}`,
       response: JSON.stringify(response.data, null, 2),
-      name: `Children-Divorce NextJS - ${
+      name: `Shopping List - ${
         JSON.stringify(response.data).toLowerCase().includes("mobile")
           ? "Mobile"
           : "Desktop"
