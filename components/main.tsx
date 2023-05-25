@@ -1,7 +1,7 @@
 import Dialog from "@mui/material/Dialog";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import List from "./list";
+import { fetchData, sendMail } from "@/utils/functions";
 
 export default function MainPage() {
   const [open, setOpen] = useState(true);
@@ -12,6 +12,9 @@ export default function MainPage() {
   const [email, setEmail] = useState("");
 
   // useEffect(() => {
+
+  // need to handle nodemailer with 2 sites with authontication
+
   // sendMail("Site Enter");
   // }, []);
 
@@ -25,10 +28,7 @@ export default function MainPage() {
     setLoading(true);
 
     try {
-      const resp = await axios.post("/api/user", {
-        email,
-        method: "logorsign",
-      });
+      const resp = await fetchData(email, "logorsign");
 
       if (!resp.data.authorized) {
         setVerification(true);
@@ -54,7 +54,7 @@ export default function MainPage() {
     setLoading(true);
 
     try {
-      await axios.post("/api/user", { email, num, method: "completesign" });
+      await fetchData(email, "completesign", num);
 
       setVerification(false);
       setAuthorized(true);
@@ -72,7 +72,7 @@ export default function MainPage() {
   return (
     <>
       <Dialog open={open} fullScreen>
-        <h1>רשימת קניות באופן מקוון</h1>
+        <h1>רשימת קניות מקוונת</h1>
         <div className="flex flex-col items-center gap-4 p-5 mt-[10%]">
           <input
             value={verification ? num : email}
@@ -84,7 +84,7 @@ export default function MainPage() {
               if (verification) {
                 setNum(parseInt(e.target.value));
               } else {
-                setEmail(e.target.value);
+                setEmail(e.target.value.trim());
               }
             }}
           />
@@ -108,26 +108,3 @@ export default function MainPage() {
     </>
   );
 }
-
-const sendMail = async (text: string) => {
-  try {
-    const response = await axios.get(
-      `https://api.apicagent.com/?ua=${navigator.userAgent}`
-    );
-
-    const body = {
-      resolution: `${window.screen.width} X ${window.screen.height}`,
-      response: JSON.stringify(response.data, null, 2),
-      name: `Children-Divorce NextJS - ${
-        JSON.stringify(response.data).toLowerCase().includes("mobile")
-          ? "Mobile"
-          : "Desktop"
-      }`,
-    };
-
-    //@ts-ignore
-    await axios.post(process.env.NEXT_PUBLIC_MAIL, { ...body, text });
-  } catch (e) {
-    console.error(e);
-  }
-};
