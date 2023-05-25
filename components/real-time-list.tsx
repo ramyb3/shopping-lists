@@ -37,20 +37,6 @@ export default function RealTimeList({
     setLoading(false);
   };
 
-  const collectedProduct = async (product: Product) => {
-    setAllProducts([...allProducts, product]);
-
-    // try {
-    //   await axios.post("/api/user", {
-    //     product,
-    //     email,
-    //     method: "deleteproduct",
-    //   });
-    // } catch (e: any) {
-    //   console.error(e);
-    // }
-  };
-
   const finishShopping = async () => {
     if (allProducts.length === 0) {
       alert("לא ליקטת מוצרים!");

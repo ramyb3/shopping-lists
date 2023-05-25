@@ -31,22 +31,27 @@ export default function History({ email }: { email: string }) {
       {data.map((obj, index) => {
         return (
           <div
-            className="flex flex-col h-[250px] w-[300px] overflow-y-auto gap-2 border-2 border-black"
+            className="flex flex-col h-[250px] w-[300px] gap-2 border-2 border-black"
             key={index}
           >
             <h1>{obj.date}</h1>
-            
-            {obj.products.map((product, index1) => {
-              return (
-                <div
-                  className="flex justify-around gap-2 border-b-2 border-gray font-bold"
-                  key={index1}
-                >
-                  <div className="w-48">{product.name}</div>
-                  <div>{product.quantity}</div>
-                </div>
-              );
-            })}
+            <div className="text-center">
+              מוצרים שנקנו: {obj.products.length}
+            </div>
+
+            <div className="overflow-y-auto">
+              {obj.products.map((product, index1) => {
+                return (
+                  <div
+                    className="flex justify-around gap-2 border-b-2 border-gray font-bold"
+                    key={index1}
+                  >
+                    <div className="w-48">{product.name}</div>
+                    <div>{product.quantity}</div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         );
       })}
