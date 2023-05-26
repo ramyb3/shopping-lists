@@ -31,7 +31,7 @@ export default function History({ email }: { email: string }) {
       {data.map((obj, index) => {
         return (
           <div
-            className="flex flex-col h-[250px] w-[300px] gap-2 border-2 border-black"
+            className="flex flex-col h-[250px] w-[300px] gap-2 rounded-lg border-2 border-black"
             key={index}
           >
             <h1>{obj.date}</h1>

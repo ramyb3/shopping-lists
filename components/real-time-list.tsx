@@ -52,7 +52,7 @@ export default function RealTimeList({
     } catch (e: any) {
       console.error(e);
     }
-    
+
     setLoading(false);
   };
 
@@ -97,7 +97,7 @@ export default function RealTimeList({
   }
 
   return (
-    <div className="flex flex-col gap-6 p-2 border-2 border-black sm:min-w-[500px] w-[300px]">
+    <div className="flex flex-col gap-6 p-2 border-2 rounded-md border-black sm:min-w-[500px] w-[300px]">
       {loading && <h3>טוען...</h3>}
 
       <div className="max-h-[350px]  sm:max-h-[600px] overflow-y-auto">
