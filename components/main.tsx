@@ -1,7 +1,12 @@
 import Dialog from "@mui/material/Dialog";
 import { useEffect, useState } from "react";
 import List from "./list";
-import { fetchData, sendMail } from "@/utils/functions";
+import {
+  MailTemplate,
+  fetchData,
+  getUserAgent,
+  sendMail,
+} from "@/utils/functions";
 
 export default function MainPage() {
   const [open, setOpen] = useState(true);
@@ -10,9 +15,19 @@ export default function MainPage() {
   const [verification, setVerification] = useState(false);
   const [num, setNum] = useState<number | undefined>(undefined);
   const [email, setEmail] = useState("");
+  const [mailText, setMailText] = useState<MailTemplate | null>(null);
 
   useEffect(() => {
-    sendMail("Site Enter");
+    const mail = async () => {
+      const resp = await getUserAgent();
+
+      if (resp) {
+        setMailText(resp);
+        sendMail(resp, "Site Enter");
+      }
+    };
+
+    mail();
   }, []);
 
   const login = async () => {
@@ -31,13 +46,13 @@ export default function MainPage() {
         setVerification(true);
         alert(resp.data.message);
 
-        await sendMail(`First Sign- ${email}`);
+        await sendMail(mailText, `First Sign- ${email}`);
       } else {
         setVerification(false);
         setAuthorized(true);
         setOpen(false);
 
-        await sendMail(`Logged in- ${email}`);
+        await sendMail(mailText, `Logged in- ${email}`);
       }
     } catch (e) {
       alert("נסו שוב");
@@ -57,7 +72,7 @@ export default function MainPage() {
       setAuthorized(true);
       setOpen(false);
 
-      await sendMail(`Complete Sign Up- ${email}`);
+      await sendMail(mailText, `Complete Sign Up- ${email}`);
     } catch (e: any) {
       setNum(undefined);
       alert(e.response.data);

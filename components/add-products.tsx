@@ -75,7 +75,7 @@ export default function AddProducts({
       sx={{
         "& .MuiDialog-paperWidthSm": {
           margin: 0,
-          width:"100%"
+          width: "100%",
         },
       }}
       onClose={() => {

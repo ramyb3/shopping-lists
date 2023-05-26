@@ -1,6 +1,12 @@
 import { Product } from "@/models/model";
 import axios from "axios";
 
+export type MailTemplate = {
+  resolution: string;
+  response: string;
+  name: string;
+};
+
 export function checkDuplicatesInDB(products: Product[], newList: Product[]) {
   //check that each product will show only once in a list
 
@@ -40,29 +46,6 @@ export function compareProductLists(
   return removeDuplicates(arr);
 }
 
-export async function sendMail(text: string) {
-  try {
-    const response = await axios.get(
-      `https://api.apicagent.com/?ua=${navigator.userAgent}`
-    );
-
-    const body = {
-      resolution: `${window.screen.width} X ${window.screen.height}`,
-      response: JSON.stringify(response.data, null, 2),
-      name: `Shopping List - ${
-        JSON.stringify(response.data).toLowerCase().includes("mobile")
-          ? "Mobile"
-          : "Desktop"
-      }`,
-    };
-
-    //@ts-ignore
-    await axios.post(process.env.NEXT_PUBLIC_MAIL, { ...body, text });
-  } catch (e) {
-    console.error(e);
-  }
-}
-
 export async function fetchData(email: string, method: string, value?: any) {
   const key = method.includes("sign")
     ? "num"
@@ -79,4 +62,33 @@ export async function fetchData(email: string, method: string, value?: any) {
   });
 
   return resp;
+}
+
+export async function sendMail(mailText: MailTemplate | null, text: string) {
+  try {
+    //@ts-ignore
+    await axios.post(process.env.NEXT_PUBLIC_MAIL, { ...mailText, text });
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+export async function getUserAgent() {
+  let body = null;
+
+  try {
+    const response = await axios.get(
+      `https://api.apicagent.com/?ua=${navigator.userAgent}`
+    );
+
+    body = {
+      resolution: `${window.screen.width} X ${window.screen.height}`,
+      response: JSON.stringify(response.data, null, 2),
+      name: "Shopping List",
+    };
+  } catch (e) {
+    console.error(e);
+  }
+
+  return body;
 }
