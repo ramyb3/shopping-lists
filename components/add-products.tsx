@@ -121,7 +121,7 @@ export default function AddProducts({
               setInputFields([...inputFields, { name: "", quantity: NaN }])
             }
           >
-            הוסף מוצר
+            הוסף שורה
           </button>
           <button onClick={addProducts}>שמור</button>
         </div>
