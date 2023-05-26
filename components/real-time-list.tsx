@@ -108,12 +108,12 @@ export default function RealTimeList({
               <div className="w-5 text-right font-bold">{product.quantity}</div>
 
               {!isCollected && (
-                <button className="text-sm" onClick={() => addProduct(product)}>
+                <button className="text-xs sm:text-sm" onClick={() => addProduct(product)}>
                   לוקט?
                 </button>
               )}
               <button
-                className="text-sm ml-1"
+                className="text-xs sm:text-sm ml-1"
                 onClick={() => removeProduct(product)}
               >
                 הסר מוצר

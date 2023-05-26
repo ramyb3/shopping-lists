@@ -74,7 +74,11 @@ export default function AddProducts({
   return (
     <Dialog
       open={open}
-      fullWidth
+      sx={{
+        "& .MuiDialog-paperWidthSm": {
+          margin: 0
+        }
+      }}
       onClose={() => {
         if (!loading) {
           setOpen(false);
