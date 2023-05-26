@@ -80,12 +80,13 @@ export default function RealTimeList({
   };
 
   const reorder =(e:any)=> {
-    console.log(e,11);
+    // console.log(e,11);
 
     const result = Array.from(products);
-    
+    const [removed] = result.splice(e.source.index, 1);
+    result.splice(e.destination.index, 0, removed);
+
     console.log(result,22);
-    
   }
 
   return (
