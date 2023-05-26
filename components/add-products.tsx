@@ -75,6 +75,7 @@ export default function AddProducts({
       sx={{
         "& .MuiDialog-paperWidthSm": {
           margin: 0,
+          width:"100%"
         },
       }}
       onClose={() => {
@@ -93,15 +94,15 @@ export default function AddProducts({
                 <input
                   placeholder="מוצר"
                   type="text"
-                  className="sm:min-w-[300px] max-w-[140px]"
+                  className="sm:min-w-[300px] max-w-[180px]"
                   onChange={(e) =>
                     handleFormChange(e.target.value, index, "name")
                   }
                 />
                 <input
-                  placeholder="כמות"
+                  placeholder=" כמות"
                   type="number"
-                  className="w-20"
+                  className="w-28 text-right"
                   onChange={(e) =>
                     handleFormChange(
                       parseInt(e.target.value),
