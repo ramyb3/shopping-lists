@@ -12,7 +12,7 @@ export default function MainPage() {
   const [email, setEmail] = useState("");
 
   useEffect(() => {
-    // sendMail("Site Enter");
+    sendMail("Site Enter");
   }, []);
 
   const login = async () => {
@@ -31,13 +31,13 @@ export default function MainPage() {
         setVerification(true);
         alert(resp.data.message);
 
-        // await sendMail(`First Sign- ${email}`);
+        await sendMail(`First Sign- ${email}`);
       } else {
         setVerification(false);
         setAuthorized(true);
         setOpen(false);
 
-        // await sendMail(`Logged in- ${email}`);
+        await sendMail(`Logged in- ${email}`);
       }
     } catch (e) {
       alert("נסו שוב");
@@ -57,7 +57,7 @@ export default function MainPage() {
       setAuthorized(true);
       setOpen(false);
 
-      // await sendMail(`Complete Sign Up- ${email}`);
+      await sendMail(`Complete Sign Up- ${email}`);
     } catch (e: any) {
       setNum(undefined);
       alert(e.response.data);

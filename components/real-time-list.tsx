@@ -72,12 +72,12 @@ export default function RealTimeList({
   };
 
   return (
-    <div className="flex flex-col gap-6 p-2 border-2 rounded-md border-black sm:min-w-[500px] w-[300px]">
-      <button className="self-center" onClick={() => setRefresh(true)}>
+    <div className="flex flex-col sm:gap-6 gap-2 p-2 border-2 rounded-md border-black sm:min-w-[500px] w-[300px]">
+      <button className="self-center text-sm" onClick={() => setRefresh(true)}>
         רענון רשימה
       </button>
 
-      <div className="max-h-[350px] sm:max-h-[600px] overflow-y-auto">
+      <div className="max-h-[320px] sm:max-h-[600px] overflow-y-auto">
         {loading && <h3>טוען...</h3>}
 
         <DND
