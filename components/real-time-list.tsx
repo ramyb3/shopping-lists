@@ -1,165 +1,94 @@
-import { useEffect, useState } from "react";
 import { Product } from "@/models/model";
-import { fetchData } from "@/utils/functions";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import { compareProductLists, fetchData } from "@/utils/functions";
+import DND from "./dnd";
 
 export default function RealTimeList({
   setOpen,
   setProducts,
   setList,
+  setRefresh,
+  setLoading,
+  setAllProducts,
   products,
+  loading,
   email,
+  allProducts,
 }: {
   setOpen: any;
   setProducts: any;
   setList: any;
+  setRefresh: any;
+  setAllProducts: any;
+  setLoading: any;
   products: Product[];
   email: string;
+  loading: boolean;
+  allProducts: Product[];
 }) {
-  const [allProducts, setAllProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    const getCollectedProducts = async () => {
-      setLoading(true);
-
-      try {
-        const resp = await fetchData(email, "getcollectedproducts");
-
-        setAllProducts(resp.data);
-      } catch (e: any) {
-        console.error(e);
-      }
-
-      setLoading(false);
-    };
-
-    getCollectedProducts();
-  }, []);
-
-  const removeProduct = async (product: Product) => {
-    setLoading(true);
-
-    const arr = products.filter((item) => item.name !== product.name);
-    setProducts(arr);
-
-    if (arr.length === 0) {
-      setList(false);
-    }
-
-    try {
-      await fetchData(email, "deleteproduct", product);
-    } catch (e: any) {
-      console.error(e);
-    }
-
-    setLoading(false);
-  };
-
-  const addProduct = async (product: Product) => {
-    setLoading(true);
-    setAllProducts([...allProducts, product]);
-
-    try {
-      await fetchData(email, "addtocollected", product);
-    } catch (e: any) {
-      console.error(e);
-    }
-
-    setLoading(false);
-  };
-
   const finishShopping = async () => {
+    let realTimeList, collectedProducts;
+
+    setLoading(true);
+
     if (allProducts.length === 0) {
       alert("לא ליקטת מוצרים!");
+      setLoading(false);
       return;
+    } else {
+      // in case of parallel finish
+      try {
+        const resp = await fetchData(email, "getproducts");
+
+        realTimeList = resp.data.realTimeList;
+        collectedProducts = resp.data.collectedProducts;
+
+        setProducts(realTimeList);
+        setAllProducts(collectedProducts);
+        setList(false);
+
+        if (realTimeList.length === 0) {
+          setLoading(false);
+          return;
+        }
+      } catch (e) {
+        console.error(e);
+        return;
+      }
     }
 
-    setLoading(true);
-
     try {
-      await fetchData(email, "finishshopping", allProducts);
-    } catch (e: any) {
+      await fetchData(
+        email,
+        "finishshopping",
+        compareProductLists(realTimeList, collectedProducts)
+      );
+    } catch (e) {
       console.error(e);
     }
 
     setProducts([]);
-    setList(false);
+    setAllProducts([]);
     setLoading(false);
   };
 
-  const reorder =(e:any)=> {
-    const result = Array.from(products);
-    const [removed] = result.splice(e.source.index, 1);
-    result.splice(e.destination.index, 0, removed);
-
-    setProducts(result);
-  }
-
   return (
     <div className="flex flex-col gap-6 p-2 border-2 rounded-md border-black sm:min-w-[500px] w-[300px]">
-      {loading && <h3>טוען...</h3>}
+      <button className="self-center" onClick={() => setRefresh(true)}>
+        רענון רשימה
+      </button>
 
-      <div className="max-h-[350px]  sm:max-h-[600px] overflow-y-auto">
-        <DragDropContext onDragEnd={reorder} >
-          <Droppable droppableId={"drop-zone"}>
-            {(provided, snapshot) => (
-              <div ref={provided.innerRef} {...provided.droppableProps}>
-                {products.map((product, index) => {
-                  const isCollected = allProducts.find(
-                    (item) => item.name === product.name
-                  );
+      <div className="max-h-[350px] sm:max-h-[600px] overflow-y-auto">
+        {loading && <h3>טוען...</h3>}
 
-                  return (
-                    <Draggable
-                      key={product.name}
-                      draggableId={product.name}
-                      index={index}
-                    >
-                      {(provided, snapshot) => {
-                        return (
-                          <div
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            ref={provided.innerRef}
-                            className={`flex items-center justify-between gap-2 py-2 border-b-2 border-gray ${
-                              isCollected ? "bg-[#008000]" : ""
-                            }`}
-                          >
-                            <div className="w-24 break-words text-center">
-                              {product.name}
-                            </div>
-                            <div className="w-5 text-right font-bold">
-                              {product.quantity}
-                            </div>
-
-                            {!isCollected && (
-                              <button
-                                className="text-xs sm:text-sm"
-                                onClick={() => addProduct(product)}
-                              >
-                                לוקט?
-                              </button>
-                            )}
-
-                            <button
-                              className="text-xs sm:text-sm ml-1"
-                              onClick={() => removeProduct(product)}
-                            >
-                              הסר מוצר
-                            </button>
-                          </div>
-                        );
-                      }}
-                    </Draggable>
-                  );
-                })}
-
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-        </DragDropContext>
+        <DND
+          setProducts={setProducts}
+          setList={setList}
+          setAllProducts={setAllProducts}
+          setLoading={setLoading}
+          products={products}
+          allProducts={allProducts}
+          email={email}
+        />
       </div>
 
       <div className="flex gap-3 justify-center">

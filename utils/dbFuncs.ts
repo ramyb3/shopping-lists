@@ -1,5 +1,5 @@
 import User from "@/models/model";
-import { checkDuplicates } from "./functions";
+import { checkDuplicatesInDB } from "./functions";
 
 export const findUser = async (email: any) => {
   return await User.findOne({ email: email.trim() });
@@ -61,7 +61,7 @@ export const saveProduct = async (obj: any) => {
     {
       $push: {
         realTimeList: {
-          $each: checkDuplicates(user.realTimeList, obj.products),
+          $each: checkDuplicatesInDB(user.realTimeList, obj.products),
         },
       },
     }

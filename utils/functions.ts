@@ -1,7 +1,7 @@
 import { Product } from "@/models/model";
 import axios from "axios";
 
-export function checkDuplicates(products: Product[], newList: Product[]) {
+export function checkDuplicatesInDB(products: Product[], newList: Product[]) {
   //check that each product will show only once in a list
 
   for (let i = 0; i < products.length; i++) {
@@ -13,6 +13,31 @@ export function checkDuplicates(products: Product[], newList: Product[]) {
   }
 
   return newList;
+}
+
+export function removeDuplicates(products: Product[]) {
+  // remove same product from new saved list
+  return products.filter(
+    (value, index, self) =>
+      index === self.findIndex((t) => t.name === value.name)
+  );
+}
+
+export function compareProductLists(
+  products: Product[],
+  collectedProducts: Product[]
+) {
+  const arr = [...collectedProducts];
+
+  for (let i = 0; i < collectedProducts.length; i++) {
+    if (
+      !products.find((product) => product.name === collectedProducts[i].name)
+    ) {
+      arr.splice(i, 1);
+    }
+  }
+
+  return removeDuplicates(arr);
 }
 
 export async function sendMail(text: string) {

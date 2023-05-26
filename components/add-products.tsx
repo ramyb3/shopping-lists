@@ -1,7 +1,11 @@
 import { useState } from "react";
 import Dialog from "@mui/material/Dialog";
 import { Product } from "@/models/model";
-import { checkDuplicates, fetchData } from "@/utils/functions";
+import {
+  checkDuplicatesInDB,
+  fetchData,
+  removeDuplicates,
+} from "@/utils/functions";
 
 export default function AddProducts({
   setOpen,
@@ -38,13 +42,7 @@ export default function AddProducts({
       return;
     }
 
-    // remove same product from new saved list
-    arr = arr.filter(
-      (value, index, self) =>
-        index === self.findIndex((t) => t.name === value.name)
-    );
-
-    arr = checkDuplicates(products, arr);
+    arr = checkDuplicatesInDB(products, removeDuplicates(arr));
 
     setProducts([...products, ...arr]);
 

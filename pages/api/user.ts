@@ -23,20 +23,23 @@ export default async function handler(
     return await completeSign(req, res);
   } else if (req.body.method === "deleteproduct") {
     return await deleteProducts(req, res);
-  } else if (req.body.method === "getproducts") {
-    return await getAllProducts(req, res);
   } else if (req.body.method === "saveproducts") {
     return await saveProducts(req, res);
   } else if (req.body.method === "finishshopping") {
     return await finishShopping(req, res);
-  } else if (req.body.method === "getcollectedproducts") {
-    return await getCollectedProducts(req, res);
   } else if (req.body.method === "addtocollected") {
     return await addToCollected(req, res);
   } else if (req.body.method === "gethistory") {
     return await getHistory(req, res);
+  } else if (req.body.method === "getproducts") {
+    return await getProducts(req, res);
   }
 }
+
+const getProducts = async (req: NextApiRequest, res: NextApiResponse) => {
+  const obj = await findUser(req.body.email);
+  return res.json(obj);
+};
 
 const logOrSign = async (req: NextApiRequest, res: NextApiResponse) => {
   const obj = await findUser(req.body.email);
@@ -85,19 +88,6 @@ const completeSign = async (req: NextApiRequest, res: NextApiResponse) => {
 const deleteProducts = async (req: NextApiRequest, res: NextApiResponse) => {
   await deleteProduct(req.body);
   return res.json("");
-};
-
-const getAllProducts = async (req: NextApiRequest, res: NextApiResponse) => {
-  const obj = await findUser(req.body.email);
-  return res.json(obj.realTimeList);
-};
-
-const getCollectedProducts = async (
-  req: NextApiRequest,
-  res: NextApiResponse
-) => {
-  const obj = await findUser(req.body.email);
-  return res.json(obj.collectedProducts);
 };
 
 const saveProducts = async (req: NextApiRequest, res: NextApiResponse) => {

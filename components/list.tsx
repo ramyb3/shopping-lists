@@ -8,9 +8,11 @@ import { fetchData } from "@/utils/functions";
 export default function List({ email }: { email: string }) {
   const [list, setList] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [open, setOpen] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [refresh, setRefresh] = useState(true);
 
   useEffect(() => {
     const getProducts = async () => {
@@ -19,17 +21,21 @@ export default function List({ email }: { email: string }) {
       try {
         const resp = await fetchData(email, "getproducts");
 
-        setList(resp.data.length > 0 ? true : false);
-        setProducts(resp.data);
+        setList(resp.data.realTimeList.length > 0 ? true : false);
+        setProducts(resp.data.realTimeList);
+        setAllProducts(resp.data.collectedProducts);
       } catch (e: any) {
         console.error(e);
       }
 
       setLoading(false);
+      setRefresh(false);
     };
 
-    getProducts();
-  }, []);
+    if (refresh) {
+      getProducts();
+    }
+  }, [refresh]);
 
   return (
     <div
@@ -56,8 +62,13 @@ export default function List({ email }: { email: string }) {
           setOpen={setOpen}
           setProducts={setProducts}
           setList={setList}
+          setRefresh={setRefresh}
+          setAllProducts={setAllProducts}
+          setLoading={setLoading}
           products={products}
+          allProducts={allProducts}
           email={email}
+          loading={loading}
         />
       )}
 
@@ -78,8 +89,6 @@ export default function List({ email }: { email: string }) {
           {!showHistory ? "היסטוריית קניות" : "חזרה לרשימה"}
         </button>
       </div>
-
-      {loading && <h3>טוען...</h3>}
     </div>
   );
 }
