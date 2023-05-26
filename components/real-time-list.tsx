@@ -79,20 +79,22 @@ export default function RealTimeList({
     // setLoading(false);
   };
 
+  const reorder =(e:any)=> {
+    console.log(e,11);
+
+    const result = Array.from(products);
+    
+    console.log(result,22);
+    
+  }
+
   return (
     <div className="flex flex-col gap-6 p-2 border-2 border-black sm:min-w-[500px] w-[300px]">
       {loading && <h3>טוען...</h3>}
 
       <div className="max-h-[350px]  sm:max-h-[600px] overflow-y-auto">
-        <DragDropContext
-          onDragEnd={() => console.log(11)}
-          onDragUpdate={() => console.log(22)}
-          onDragStart={() => console.log(33)}
-        >
-          <Droppable
-            droppableId={"drop-zone"}
-            // direction={"vertical"}
-          >
+        <DragDropContext onDragEnd={reorder} >
+          <Droppable droppableId={"drop-zone"}>
             {(provided, snapshot) => (
               <div ref={provided.innerRef} {...provided.droppableProps}>
                 {products.map((product, index) => {
@@ -159,37 +161,3 @@ export default function RealTimeList({
     </div>
   );
 }
-
-/*
-
-{products.map((product, index) => {
-          const isCollected = allProducts.find(
-            (item) => item.name === product.name
-          );
-
-          return (
-            <div
-              className={`flex items-center justify-between gap-2 py-2 border-b-2 border-gray ${
-                isCollected ? "bg-[#008000]" : ""
-              }`}
-              key={index}
-            >
-              <div className="w-24 break-words text-center">{product.name}</div>
-              <div className="w-5 text-right font-bold">{product.quantity}</div>
-
-              {!isCollected && (
-                <button className="text-xs sm:text-sm" onClick={() => addProduct(product)}>
-                  לוקט?
-                </button>
-              )}
-              <button
-                className="text-xs sm:text-sm ml-1"
-                onClick={() => removeProduct(product)}
-              >
-                הסר מוצר
-              </button>
-            </div>
-          );
-        })}
-
-*/
