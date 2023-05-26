@@ -38,55 +38,62 @@ export default function RealTimeList({
   }, []);
 
   const removeProduct = async (product: Product) => {
-    // setLoading(true);
-    // const arr = products.filter((item) => item.name !== product.name);
-    // setProducts(arr);
-    // if (arr.length === 0) {
-    //   setList(false);
-    // }
-    // try {
-    //   await fetchData(email, "deleteproduct", product);
-    // } catch (e: any) {
-    //   console.error(e);
-    // }
-    // setLoading(false);
+    setLoading(true);
+
+    const arr = products.filter((item) => item.name !== product.name);
+    setProducts(arr);
+
+    if (arr.length === 0) {
+      setList(false);
+    }
+
+    try {
+      await fetchData(email, "deleteproduct", product);
+    } catch (e: any) {
+      console.error(e);
+    }
+    
+    setLoading(false);
   };
 
   const addProduct = async (product: Product) => {
-    // setLoading(true);
-    // setAllProducts([...allProducts, product]);
-    // try {
-    //   await fetchData(email, "addtocollected", product);
-    // } catch (e: any) {
-    //   console.error(e);
-    // }
-    // setLoading(false);
+    setLoading(true);
+    setAllProducts([...allProducts, product]);
+
+    try {
+      await fetchData(email, "addtocollected", product);
+    } catch (e: any) {
+      console.error(e);
+    }
+
+    setLoading(false);
   };
 
   const finishShopping = async () => {
-    // if (allProducts.length === 0) {
-    //   alert("לא ליקטת מוצרים!");
-    //   return;
-    // }
-    // setLoading(true);
-    // try {
-    //   await fetchData(email, "finishshopping", allProducts);
-    // } catch (e: any) {
-    //   console.error(e);
-    // }
-    // setProducts([]);
-    // setList(false);
-    // setLoading(false);
+    if (allProducts.length === 0) {
+      alert("לא ליקטת מוצרים!");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      await fetchData(email, "finishshopping", allProducts);
+    } catch (e: any) {
+      console.error(e);
+    }
+
+    setProducts([]);
+    setList(false);
+    setLoading(false);
   };
 
   const reorder =(e:any)=> {
-    // console.log(e,11);
-
     const result = Array.from(products);
     const [removed] = result.splice(e.source.index, 1);
     result.splice(e.destination.index, 0, removed);
 
-    console.log(result,22);
+    setProducts(result);
   }
 
   return (
