@@ -46,7 +46,7 @@ export default function History({
         return (
           <div
             className={`flex flex-col h-[250px] w-[300px] gap-2 rounded-lg border-2 border-black ${
-              chooseList ? "cursor-pointer" : ""
+              chooseList ? "cursor-pointer hover:bg-cyan-200" : ""
             }`}
             key={index}
             onClick={() => {

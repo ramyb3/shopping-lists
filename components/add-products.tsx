@@ -48,7 +48,6 @@ export default function AddProducts({
     if (arr.length === 0) {
       setLoading(false);
       setOpen(false);
-      setInputFields([{ name: "", quantity: NaN }]);
       return;
     }
 
@@ -65,7 +64,6 @@ export default function AddProducts({
     setLoading(false);
     setOpen(false);
     setList(true);
-    setInputFields([{ name: "", quantity: NaN }]);
   };
 
   const handleFormChange = (
@@ -92,8 +90,17 @@ export default function AddProducts({
         if (!loading) {
           setOpen(false);
         }
+
+        setInputFields([{ name: "", quantity: NaN }]);
       }}
     >
+      <figure
+        className="absolute top-1 right-2 cursor-pointer"
+        onClick={() => setOpen(false)}
+      >
+        <FontAwesomeIcon icon={faXmark} size="xl" />
+      </figure>
+
       <div className="flex flex-col items-center gap-4 py-5 px-2">
         <h1>הוספת מוצרים לרשימה</h1>
 

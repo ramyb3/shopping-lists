@@ -59,7 +59,7 @@ export default function List({ email }: { email: string }) {
           setHistoryProducts={setHistoryProducts}
         />
       ) : !list ? (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-5 mt-[20%]">
           <button
             onClick={() => {
               if (products.length === 0) {
