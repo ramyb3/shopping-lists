@@ -85,7 +85,5 @@ export const updateLists = async (obj: any) => {
 };
 
 export const updateFirstTimeUser = async (email: string) => {
-  return await User.findOneAndUpdate(
-    { email },{firstTimeUser: false }
-  );
+  return await User.findOneAndUpdate({ email }, { firstTimeUser: false });
 };

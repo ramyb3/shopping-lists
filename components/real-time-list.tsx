@@ -14,7 +14,7 @@ export default function RealTimeList({
   loading,
   email,
   collectedProducts,
-  firstTimeUser
+  firstTimeUser,
 }: {
   setOpen: any;
   setProducts: any;
@@ -28,30 +28,30 @@ export default function RealTimeList({
   firstTimeUser: boolean;
   collectedProducts: Product[];
 }) {
-  const [finish,setFinish] =useState(false);
+  const [finish, setFinish] = useState(false);
 
-  useEffect(()=>{
-    const removeFirstTimeUser = async()=>{
+  useEffect(() => {
+    const removeFirstTimeUser = async () => {
       try {
         await fetchData(email, "firsttimeuser");
       } catch (e: any) {
         console.error(e);
       }
-    }
+    };
 
-    if(firstTimeUser) {
-      setTimeout(()=>{
+    if (firstTimeUser) {
+      setTimeout(() => {
         alert('שים לב! ניתן לסדר את הפריטים ברשימה ע"י גרירה');
-        removeFirstTimeUser()
-      },1000)
+        removeFirstTimeUser();
+      }, 1000);
     }
-  },[])
+  }, []);
 
   const finishShopping = async () => {
-    if(!finish) {
-      alert("אנא לחץ על רענן רשימה כדי לוודא שלא התווספו פריטים")
-      setFinish(true)
-      return
+    if (!finish) {
+      alert("אנא לחץ על רענן רשימה כדי לוודא שלא התווספו פריטים");
+      setFinish(true);
+      return;
     }
 
     let realTimeList, products;

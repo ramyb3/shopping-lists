@@ -113,7 +113,10 @@ const getHistory = async (req: NextApiRequest, res: NextApiResponse) => {
   return res.json(obj.lists);
 };
 
-const removeFirstTimeUser = async (req: NextApiRequest, res: NextApiResponse) => {
+const removeFirstTimeUser = async (
+  req: NextApiRequest,
+  res: NextApiResponse
+) => {
   await updateFirstTimeUser(req.body.email);
   return res.json("");
 };
