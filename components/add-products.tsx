@@ -102,7 +102,7 @@ export default function AddProducts({
                 <input
                   placeholder=" כמות"
                   type="number"
-                  className="w-28 text-right"
+                  className="w-20 text-right"
                   onChange={(e) =>
                     handleFormChange(
                       parseInt(e.target.value),

@@ -6,6 +6,7 @@ import {
   saveProduct,
   updateLists,
   addProductToCollected,
+  updateFirstTimeUser,
 } from "@/utils/dbFuncs";
 import type { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
@@ -33,6 +34,8 @@ export default async function handler(
     return await getHistory(req, res);
   } else if (req.body.method === "getproducts") {
     return await getProducts(req, res);
+  } else if (req.body.method === "firsttimeuser") {
+    return await removeFirstTimeUser(req, res);
   }
 }
 
@@ -108,4 +111,9 @@ const finishShopping = async (req: NextApiRequest, res: NextApiResponse) => {
 const getHistory = async (req: NextApiRequest, res: NextApiResponse) => {
   const obj = await findUser(req.body.email);
   return res.json(obj.lists);
+};
+
+const removeFirstTimeUser = async (req: NextApiRequest, res: NextApiResponse) => {
+  await updateFirstTimeUser(req.body.email);
+  return res.json("");
 };

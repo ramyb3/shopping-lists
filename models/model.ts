@@ -14,6 +14,7 @@ const userSchema = new Schema({
   email: String,
   authorized: Boolean,
   verification: Number,
+  firstTimeUser: Boolean,
   lists: Array<List>,
   realTimeList: Array<Product>,
   collectedProducts: Array<Product>,

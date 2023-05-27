@@ -1,6 +1,7 @@
 import { Product } from "@/models/model";
 import { compareProductLists, fetchData } from "@/utils/functions";
 import DND from "./dnd";
+import { useEffect, useState } from "react";
 
 export default function RealTimeList({
   setOpen,
@@ -8,29 +9,56 @@ export default function RealTimeList({
   setList,
   setRefresh,
   setLoading,
-  setAllProducts,
+  setCollectedProducts,
   products,
   loading,
   email,
-  allProducts,
+  collectedProducts,
+  firstTimeUser
 }: {
   setOpen: any;
   setProducts: any;
   setList: any;
   setRefresh: any;
-  setAllProducts: any;
+  setCollectedProducts: any;
   setLoading: any;
   products: Product[];
   email: string;
   loading: boolean;
-  allProducts: Product[];
+  firstTimeUser: boolean;
+  collectedProducts: Product[];
 }) {
+  const [finish,setFinish] =useState(false);
+
+  useEffect(()=>{
+    const removeFirstTimeUser = async()=>{
+      try {
+        await fetchData(email, "firsttimeuser");
+      } catch (e: any) {
+        console.error(e);
+      }
+    }
+
+    if(firstTimeUser) {
+      setTimeout(()=>{
+        alert('שים לב! ניתן לסדר את הפריטים ברשימה ע"י גרירה');
+        removeFirstTimeUser()
+      },1000)
+    }
+  },[])
+
   const finishShopping = async () => {
-    let realTimeList, collectedProducts;
+    if(!finish) {
+      alert("אנא לחץ על רענן רשימה כדי לוודא שלא התווספו פריטים")
+      setFinish(true)
+      return
+    }
+
+    let realTimeList, products;
 
     setLoading(true);
 
-    if (allProducts.length === 0) {
+    if (collectedProducts.length === 0) {
       alert("לא ליקטת מוצרים!");
       setLoading(false);
       return;
@@ -40,10 +68,10 @@ export default function RealTimeList({
         const resp = await fetchData(email, "getproducts");
 
         realTimeList = resp.data.realTimeList;
-        collectedProducts = resp.data.collectedProducts;
+        products = resp.data.collectedProducts;
 
         setProducts(realTimeList);
-        setAllProducts(collectedProducts);
+        setCollectedProducts(products);
         setList(false);
 
         if (realTimeList.length === 0) {
@@ -60,14 +88,14 @@ export default function RealTimeList({
       await fetchData(
         email,
         "finishshopping",
-        compareProductLists(realTimeList, collectedProducts)
+        compareProductLists(realTimeList, products)
       );
     } catch (e) {
       console.error(e);
     }
 
     setProducts([]);
-    setAllProducts([]);
+    setCollectedProducts([]);
     setLoading(false);
   };
 
@@ -83,10 +111,10 @@ export default function RealTimeList({
         <DND
           setProducts={setProducts}
           setList={setList}
-          setAllProducts={setAllProducts}
+          setCollectedProducts={setCollectedProducts}
           setLoading={setLoading}
           products={products}
-          allProducts={allProducts}
+          collectedProducts={collectedProducts}
           email={email}
         />
       </div>

@@ -8,11 +8,12 @@ import { fetchData } from "@/utils/functions";
 export default function List({ email }: { email: string }) {
   const [list, setList] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
-  const [allProducts, setAllProducts] = useState<Product[]>([]);
+  const [collectedProducts, setCollectedProducts] = useState<Product[]>([]);
   const [open, setOpen] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
   const [loading, setLoading] = useState(false);
   const [refresh, setRefresh] = useState(true);
+  const [firstTimeUser, setFirstTimeUser] = useState(false);
 
   useEffect(() => {
     const getProducts = async () => {
@@ -22,8 +23,9 @@ export default function List({ email }: { email: string }) {
         const resp = await fetchData(email, "getproducts");
 
         setList(resp.data.realTimeList.length > 0 ? true : false);
+        setFirstTimeUser(resp.data?.firstTimeUser);
         setProducts(resp.data.realTimeList);
-        setAllProducts(resp.data.collectedProducts);
+        setCollectedProducts(resp.data.collectedProducts);
       } catch (e: any) {
         console.error(e);
       }
@@ -63,12 +65,13 @@ export default function List({ email }: { email: string }) {
           setProducts={setProducts}
           setList={setList}
           setRefresh={setRefresh}
-          setAllProducts={setAllProducts}
+          setCollectedProducts={setCollectedProducts}
           setLoading={setLoading}
           products={products}
-          allProducts={allProducts}
+          collectedProducts={collectedProducts}
           email={email}
           loading={loading}
+          firstTimeUser={firstTimeUser}
         />
       )}
 

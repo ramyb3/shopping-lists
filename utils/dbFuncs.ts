@@ -1,11 +1,11 @@
 import User from "@/models/model";
 import { checkDuplicatesInDB } from "./functions";
 
-export const findUser = async (email: any) => {
+export const findUser = async (email: string) => {
   return await User.findOne({ email: email.trim() });
 };
 
-export const saveUser = async (email: any, verification: any) => {
+export const saveUser = async (email: string, verification: any) => {
   return new Promise((resolve, reject) => {
     const subs = new User({
       email,
@@ -20,12 +20,13 @@ export const saveUser = async (email: any, verification: any) => {
   });
 };
 
-export const signUp = async (email: any) => {
+export const signUp = async (email: string) => {
   return await User.findOneAndUpdate(
     { email },
     {
       authorized: true,
       verification: null,
+      firstTimeUser: true,
     }
   );
 };
@@ -80,5 +81,11 @@ export const updateLists = async (obj: any) => {
         },
       },
     }
+  );
+};
+
+export const updateFirstTimeUser = async (email: string) => {
+  return await User.findOneAndUpdate(
+    { email },{firstTimeUser: false }
   );
 };

@@ -6,18 +6,18 @@ export default function DND({
   setProducts,
   setList,
   setLoading,
-  setAllProducts,
+  setCollectedProducts,
   products,
   email,
-  allProducts,
+  collectedProducts,
 }: {
   setProducts: any;
   setList: any;
-  setAllProducts: any;
+  setCollectedProducts: any;
   setLoading: any;
   products: Product[];
   email: string;
-  allProducts: Product[];
+  collectedProducts: Product[];
 }) {
   const reorder = (e: any) => {
     const result = Array.from(products);
@@ -48,7 +48,7 @@ export default function DND({
 
   const addProduct = async (product: Product) => {
     setLoading(true);
-    setAllProducts([...allProducts, product]);
+    setCollectedProducts([...collectedProducts, product]);
 
     try {
       await fetchData(email, "addtocollected", product);
@@ -65,7 +65,7 @@ export default function DND({
         {(provided, snapshot) => (
           <div ref={provided.innerRef} {...provided.droppableProps}>
             {products.map((product, index) => {
-              const isCollected = allProducts.find(
+              const isCollected = collectedProducts.find(
                 (item) => item.name === product.name
               );
 
@@ -82,7 +82,7 @@ export default function DND({
                         {...provided.dragHandleProps}
                         ref={provided.innerRef}
                         className={`flex items-center justify-between gap-2 py-2 font-bold border-b-2 border-gray ${
-                          isCollected ? "bg-[#008000]" : ""
+                          isCollected ? "bg-[#008000] ease-in duration-200" : ""
                         }`}
                       >
                         <div className="w-24 break-words text-center">
@@ -98,13 +98,11 @@ export default function DND({
                             לוקט?
                           </button>
                         ) : (
-                          <div className="min-w-[50px]" />
+                          <div className="sm:min-w-[50px] min-w-[20px]" />
                         )}
 
                         <button
-                          className={`text-xs sm:text-sm ml-1 sm:px-2 px-0.5 ${
-                            isCollected ? "bg-red-400" : ""
-                          }`}
+                          className="text-xs sm:text-sm ml-1 sm:px-2 px-0.5 bg-red-400"
                           onClick={() => removeProduct(product)}
                         >
                           הסר מוצר
