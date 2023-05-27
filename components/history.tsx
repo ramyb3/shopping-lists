@@ -2,7 +2,21 @@ import { List } from "@/models/model";
 import { fetchData } from "@/utils/functions";
 import { useEffect, useState } from "react";
 
-export default function History({ email }: { email: string }) {
+export default function History({
+  email,
+  chooseList,
+  setChooseList,
+  setShowHistory,
+  setOpen,
+  setHistoryProducts,
+}: {
+  email: string;
+  chooseList: boolean;
+  setChooseList: any;
+  setShowHistory: any;
+  setOpen: any;
+  setHistoryProducts: any;
+}) {
   const [data, setData] = useState<List[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -31,8 +45,18 @@ export default function History({ email }: { email: string }) {
       {data.map((obj, index) => {
         return (
           <div
-            className="flex flex-col h-[250px] w-[300px] gap-2 rounded-lg border-2 border-black"
+            className={`flex flex-col h-[250px] w-[300px] gap-2 rounded-lg border-2 border-black ${
+              chooseList ? "cursor-pointer" : ""
+            }`}
             key={index}
+            onClick={() => {
+              if (chooseList) {
+                setHistoryProducts(obj.products);
+                setShowHistory(false);
+                setOpen(true);
+                setChooseList(false);
+              }
+            }}
           >
             <h1>{obj.date}</h1>
             <div className="text-center">

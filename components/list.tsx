@@ -11,9 +11,12 @@ export default function List({ email }: { email: string }) {
   const [collectedProducts, setCollectedProducts] = useState<Product[]>([]);
   const [open, setOpen] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
+  const [historyList, setHistoryList] = useState(false);
+  const [chooseList, setChooseList] = useState(false);
   const [loading, setLoading] = useState(false);
   const [refresh, setRefresh] = useState(true);
   const [firstTimeUser, setFirstTimeUser] = useState(false);
+  const [historyProducts, setHistoryProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     const getProducts = async () => {
@@ -26,6 +29,7 @@ export default function List({ email }: { email: string }) {
         setFirstTimeUser(resp.data?.firstTimeUser);
         setProducts(resp.data.realTimeList);
         setCollectedProducts(resp.data.collectedProducts);
+        setHistoryList(resp.data.lists.length > 0 ? true : false);
       } catch (e: any) {
         console.error(e);
       }
@@ -46,19 +50,38 @@ export default function List({ email }: { email: string }) {
       }`}
     >
       {showHistory ? (
-        <History email={email} />
+        <History
+          email={email}
+          chooseList={chooseList}
+          setChooseList={setChooseList}
+          setShowHistory={setShowHistory}
+          setOpen={setOpen}
+          setHistoryProducts={setHistoryProducts}
+        />
       ) : !list ? (
-        <button
-          onClick={() => {
-            if (products.length === 0) {
-              setOpen(true);
-            } else {
-              setList(true);
-            }
-          }}
-        >
-          הוסף רשימה
-        </button>
+        <div className="flex flex-col gap-2">
+          <button
+            onClick={() => {
+              if (products.length === 0) {
+                setOpen(true);
+              } else {
+                setList(true);
+              }
+            }}
+          >
+            הוסף רשימה
+          </button>
+          {historyList && (
+            <button
+              onClick={() => {
+                setChooseList(true);
+                setShowHistory(true);
+              }}
+            >
+              הוסף רשימה מההיסטוריה
+            </button>
+          )}
+        </div>
       ) : (
         <RealTimeList
           setOpen={setOpen}
@@ -82,6 +105,7 @@ export default function List({ email }: { email: string }) {
         open={open}
         products={products}
         email={email}
+        historyProducts={historyProducts}
       />
 
       <div className="absolute top-3 right-3">

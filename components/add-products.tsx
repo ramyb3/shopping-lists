@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Dialog from "@mui/material/Dialog";
 import { Product } from "@/models/model";
 import {
@@ -6,6 +6,8 @@ import {
   fetchData,
   removeDuplicates,
 } from "@/utils/functions";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 export default function AddProducts({
   setOpen,
@@ -14,18 +16,26 @@ export default function AddProducts({
   open,
   products,
   email,
+  historyProducts,
 }: {
   setOpen: any;
   setProducts: any;
   setList: any;
   open: boolean;
   products: Product[];
+  historyProducts: Product[];
   email: string;
 }) {
   const [loading, setLoading] = useState(false);
   const [inputFields, setInputFields] = useState<Product[]>([
     { name: "", quantity: NaN },
   ]);
+
+  useEffect(() => {
+    if (historyProducts.length > 0) {
+      setInputFields([...historyProducts]);
+    }
+  }, [historyProducts]);
 
   const addProducts = async () => {
     setLoading(true);
@@ -90,7 +100,22 @@ export default function AddProducts({
         <div className="sm:max-h-[350px] max-h-[250px] overflow-y-auto">
           {inputFields.map((product, index) => {
             return (
-              <div className="flex gap-2 py-2 sm:px-2 px-1" key={index}>
+              <div
+                className="flex gap-2 py-2 sm:px-2 px-1 items-center"
+                key={index}
+              >
+                <figure
+                  className="-ml-1 cursor-pointer"
+                  onClick={() =>
+                    setInputFields(
+                      inputFields.filter(
+                        (item, itemIndex) => itemIndex !== index
+                      )
+                    )
+                  }
+                >
+                  <FontAwesomeIcon icon={faXmark} />
+                </figure>
                 <input
                   placeholder="מוצר"
                   type="text"
@@ -98,6 +123,7 @@ export default function AddProducts({
                   onChange={(e) =>
                     handleFormChange(e.target.value, index, "name")
                   }
+                  value={product.name}
                 />
                 <input
                   placeholder=" כמות"
@@ -110,6 +136,7 @@ export default function AddProducts({
                       "quantity"
                     )
                   }
+                  value={String(product.quantity)}
                 />
               </div>
             );

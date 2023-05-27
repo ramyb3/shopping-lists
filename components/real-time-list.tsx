@@ -48,12 +48,6 @@ export default function RealTimeList({
   }, []);
 
   const finishShopping = async () => {
-    if (!finish) {
-      alert("אנא לחץ על רענן רשימה כדי לוודא שלא התווספו פריטים");
-      setFinish(true);
-      return;
-    }
-
     let realTimeList, products;
 
     setLoading(true);
@@ -63,6 +57,13 @@ export default function RealTimeList({
       setLoading(false);
       return;
     } else {
+      if (!finish) {
+        alert("אנא לחץ על רענן רשימה כדי לוודא שלא התווספו פריטים");
+        setFinish(true);
+        setLoading(false);
+        return;
+      }
+
       // in case of parallel finish
       try {
         const resp = await fetchData(email, "getproducts");
@@ -97,6 +98,7 @@ export default function RealTimeList({
     setProducts([]);
     setCollectedProducts([]);
     setLoading(false);
+    setRefresh(true);
   };
 
   return (
