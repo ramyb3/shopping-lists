@@ -82,22 +82,20 @@ export default function DND({
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
                           ref={provided.innerRef}
-                          className={`flex items-center justify-between gap-2 py-2 font-bold border-b-2 border-gray ${
+                          className={`flex items-center justify-between py-2 pl-1 font-bold border-b-2 text-center border-gray ${
                             isCollected
                               ? "bg-[#008000] ease-in duration-200"
                               : ""
                           }`}
                         >
-                          <div className="w-24 break-words text-center">
-                            {product.name}
-                          </div>
+                          <div className="w-24 break-words">{product.name}</div>
                           <div className="w-8">
                             {product.quantity} {product.unit}
                           </div>
 
                           {!isCollected ? (
                             <button
-                              className="text-xs sm:text-sm sm:px-2 px-0.5 -ml-3 bg-[#01f200]"
+                              className="text-xs sm:text-sm sm:px-2 px-0.5 -ml-3 bg-[#01f200] rounded-md"
                               onClick={() => addProduct(product)}
                             >
                               לוקט?
@@ -107,7 +105,7 @@ export default function DND({
                           )}
 
                           <button
-                            className="text-xs sm:text-sm ml-1 sm:px-2 px-0.5 bg-red-400"
+                            className="text-xs sm:text-sm sm:px-2 px-0.5 bg-red-400 rounded-md"
                             onClick={() => removeProduct(product)}
                           >
                             הסר מוצר

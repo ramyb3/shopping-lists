@@ -102,7 +102,7 @@ export default function RealTimeList({
   };
 
   return (
-    <div className="flex flex-col sm:gap-6 gap-2 p-2 border-2 rounded-md border-black sm:min-w-[500px] w-[300px]">
+    <div className="flex flex-col sm:gap-6 gap-2 py-2 sm:px-2 px-0.5 border-2 rounded-md border-black sm:min-w-[500px] min-w-[98%]">
       <button
         className="self-center text-sm bg-[#e9c8d0] rounded-sm"
         onClick={() => setRefresh(true)}
@@ -114,7 +114,7 @@ export default function RealTimeList({
 
       <div className="flex sm:-mb-6 -mb-2 justify-between font-bold text-lg underline">
         <div className="w-24 text-center">מוצר</div>
-        <div className="sm:w-24 w-10">כמות</div>
+        <div className="sm:w-20 w-10">כמות</div>
         <div className="min-w-[50px]" />
         <div className="min-w-[50px]" />
       </div>
