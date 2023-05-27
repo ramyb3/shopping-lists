@@ -9,7 +9,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
-const options = ["יחידה", 'ק"ג', "גרם"];
+const options = ["יח'", 'ק"ג', "גרם"];
 
 export default function AddProducts({
   setOpen,
@@ -147,6 +147,7 @@ export default function AddProducts({
                   value={String(product.quantity)}
                 />
                 <select
+                  value={product.unit}
                   className="cursor-pointer py-0.5"
                   onChange={(e) =>
                     handleFormChange(e.target.value, index, "unit")
