@@ -31,7 +31,11 @@ export default function DND({
     setLoading(true);
 
     const arr = products.filter((item) => item.name !== product.name);
+    
     setProducts(arr);
+    setCollectedProducts(
+      collectedProducts.filter((item) => item.name !== product.name)
+    );
 
     if (arr.length === 0) {
       setList(false);
