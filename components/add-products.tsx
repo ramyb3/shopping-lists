@@ -9,6 +9,8 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
+const options = ["יחידה", 'ק"ג', "גרם"];
+
 export default function AddProducts({
   setOpen,
   setProducts,
@@ -28,7 +30,7 @@ export default function AddProducts({
 }) {
   const [loading, setLoading] = useState(false);
   const [inputFields, setInputFields] = useState<Product[]>([
-    { name: "", quantity: NaN },
+    { name: "", quantity: NaN, unit: options[0] },
   ]);
 
   useEffect(() => {
@@ -48,7 +50,7 @@ export default function AddProducts({
     if (arr.length === 0) {
       setLoading(false);
       setOpen(false);
-      setInputFields([{ name: "", quantity: NaN }]);
+      setInputFields([{ name: "", quantity: NaN, unit: options[0] }]);
       return;
     }
 
@@ -64,7 +66,7 @@ export default function AddProducts({
 
     setLoading(false);
     setOpen(false);
-    setInputFields([{ name: "", quantity: NaN }]);
+    setInputFields([{ name: "", quantity: NaN, unit: options[0] }]);
     setList(true);
   };
 
@@ -93,7 +95,7 @@ export default function AddProducts({
           setOpen(false);
         }
 
-        setInputFields([{ name: "", quantity: NaN }]);
+        setInputFields([{ name: "", quantity: NaN, unit: options[0] }]);
       }}
     >
       <figure
@@ -109,10 +111,7 @@ export default function AddProducts({
         <div className="sm:max-h-[350px] max-h-[250px] overflow-y-auto">
           {inputFields.map((product, index) => {
             return (
-              <div
-                className="flex gap-2 py-2 sm:px-2 px-1 items-center"
-                key={index}
-              >
+              <div className="flex gap-2 py-2 items-center" key={index}>
                 <figure
                   className="-ml-1 cursor-pointer"
                   onClick={() =>
@@ -128,16 +127,16 @@ export default function AddProducts({
                 <input
                   placeholder="מוצר"
                   type="text"
-                  className="sm:min-w-[300px] max-w-[180px]"
+                  className="sm:min-w-[300px] max-w-[100px]"
                   onChange={(e) =>
                     handleFormChange(e.target.value, index, "name")
                   }
                   value={product.name}
                 />
                 <input
-                  placeholder=" כמות"
+                  placeholder="כמות"
                   type="number"
-                  className="w-20 text-right"
+                  className="sm:w-20 w-16"
                   onChange={(e) =>
                     handleFormChange(
                       parseInt(e.target.value),
@@ -147,6 +146,20 @@ export default function AddProducts({
                   }
                   value={String(product.quantity)}
                 />
+                <select
+                  className="cursor-pointer py-0.5"
+                  onChange={(e) =>
+                    handleFormChange(e.target.value, index, "unit")
+                  }
+                >
+                  {options.map((option, optionIndex) => {
+                    return (
+                      <option key={optionIndex} value={option}>
+                        {option}
+                      </option>
+                    );
+                  })}
+                </select>
               </div>
             );
           })}
@@ -155,7 +168,10 @@ export default function AddProducts({
         <div className="flex gap-2">
           <button
             onClick={() =>
-              setInputFields([...inputFields, { name: "", quantity: NaN }])
+              setInputFields([
+                ...inputFields,
+                { name: "", quantity: NaN, unit: options[0] },
+              ])
             }
           >
             הוסף שורה

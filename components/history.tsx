@@ -71,7 +71,9 @@ export default function History({
                     key={index1}
                   >
                     <div className="w-48">{product.name}</div>
-                    <div>{product.quantity}</div>
+                    <div>
+                      {product.quantity} {product.unit}
+                    </div>
                   </div>
                 );
               })}

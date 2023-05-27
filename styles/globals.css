@@ -3,11 +3,13 @@
 @tailwind utilities;
 
 button,
-input {
+input,
+select {
   border: 1px black groove;
 }
 
-input {
+input,
+select {
   font-size: 25px;
   text-align: center;
 }

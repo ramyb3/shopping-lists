@@ -8,6 +8,7 @@ export type List = {
 export type Product = {
   name: string;
   quantity: number;
+  unit: string;
 };
 
 const userSchema = new Schema({

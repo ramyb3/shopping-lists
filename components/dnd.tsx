@@ -91,7 +91,9 @@ export default function DND({
                           <div className="w-24 break-words text-center">
                             {product.name}
                           </div>
-                          <div className="w-8">{product.quantity}</div>
+                          <div className="w-8">
+                            {product.quantity} {product.unit}
+                          </div>
 
                           {!isCollected ? (
                             <button
