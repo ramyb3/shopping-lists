@@ -110,7 +110,7 @@ export default function List({ email }: { email: string }) {
 
       <div className="absolute top-3 right-3">
         <button
-          className="text-sm"
+          className="text-sm bg-[#9f58a5]"
           onClick={() => setShowHistory(!showHistory)}
         >
           {!showHistory ? "היסטוריית קניות" : "חזרה לרשימה"}

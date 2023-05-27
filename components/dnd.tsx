@@ -60,64 +60,68 @@ export default function DND({
   };
 
   return (
-    <DragDropContext onDragEnd={reorder}>
-      <Droppable droppableId={"drop-zone"}>
-        {(provided, snapshot) => (
-          <div ref={provided.innerRef} {...provided.droppableProps}>
-            {products.map((product, index) => {
-              const isCollected = collectedProducts.find(
-                (item) => item.name === product.name
-              );
+    <div className="max-h-[300px] sm:max-h-[600px] overflow-y-auto">
+      <DragDropContext onDragEnd={reorder}>
+        <Droppable droppableId={"drop-zone"}>
+          {(provided, snapshot) => (
+            <div ref={provided.innerRef} {...provided.droppableProps}>
+              {products.map((product, index) => {
+                const isCollected = collectedProducts.find(
+                  (item) => item.name === product.name
+                );
 
-              return (
-                <Draggable
-                  key={product.name}
-                  draggableId={product.name}
-                  index={index}
-                >
-                  {(provided, snapshot) => {
-                    return (
-                      <div
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        ref={provided.innerRef}
-                        className={`flex items-center justify-between gap-2 py-2 font-bold border-b-2 border-gray ${
-                          isCollected ? "bg-[#008000] ease-in duration-200" : ""
-                        }`}
-                      >
-                        <div className="w-24 break-words text-center">
-                          {product.name}
-                        </div>
-                        <div className="w-5 text-right">{product.quantity}</div>
-
-                        {!isCollected ? (
-                          <button
-                            className="text-xs sm:text-sm sm:px-2 px-0.5"
-                            onClick={() => addProduct(product)}
-                          >
-                            לוקט?
-                          </button>
-                        ) : (
-                          <div className="sm:min-w-[50px] min-w-[20px]" />
-                        )}
-
-                        <button
-                          className="text-xs sm:text-sm ml-1 sm:px-2 px-0.5 bg-red-400"
-                          onClick={() => removeProduct(product)}
+                return (
+                  <Draggable
+                    key={product.name}
+                    draggableId={product.name}
+                    index={index}
+                  >
+                    {(provided, snapshot) => {
+                      return (
+                        <div
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          ref={provided.innerRef}
+                          className={`flex items-center justify-between gap-2 py-2 font-bold border-b-2 border-gray ${
+                            isCollected
+                              ? "bg-[#008000] ease-in duration-200"
+                              : ""
+                          }`}
                         >
-                          הסר מוצר
-                        </button>
-                      </div>
-                    );
-                  }}
-                </Draggable>
-              );
-            })}
+                          <div className="w-24 break-words text-center">
+                            {product.name}
+                          </div>
+                          <div className="w-8">{product.quantity}</div>
 
-            {provided.placeholder}
-          </div>
-        )}
-      </Droppable>
-    </DragDropContext>
+                          {!isCollected ? (
+                            <button
+                              className="text-xs sm:text-sm sm:px-2 px-0.5 -ml-3 bg-[#01f200]"
+                              onClick={() => addProduct(product)}
+                            >
+                              לוקט?
+                            </button>
+                          ) : (
+                            <div className="sm:min-w-[50px] min-w-[20px]" />
+                          )}
+
+                          <button
+                            className="text-xs sm:text-sm ml-1 sm:px-2 px-0.5 bg-red-400"
+                            onClick={() => removeProduct(product)}
+                          >
+                            הסר מוצר
+                          </button>
+                        </div>
+                      );
+                    }}
+                  </Draggable>
+                );
+              })}
+
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
+    </div>
   );
 }

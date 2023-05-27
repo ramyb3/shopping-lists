@@ -103,26 +103,36 @@ export default function RealTimeList({
 
   return (
     <div className="flex flex-col sm:gap-6 gap-2 p-2 border-2 rounded-md border-black sm:min-w-[500px] w-[300px]">
-      <button className="self-center text-sm" onClick={() => setRefresh(true)}>
+      <button
+        className="self-center text-sm bg-[#e9c8d0] rounded-sm"
+        onClick={() => setRefresh(true)}
+      >
         רענון רשימה
       </button>
 
-      <div className="max-h-[320px] sm:max-h-[600px] overflow-y-auto">
-        {loading && <h3>טוען...</h3>}
+      {loading && <h3>טוען...</h3>}
 
-        <DND
-          setProducts={setProducts}
-          setList={setList}
-          setCollectedProducts={setCollectedProducts}
-          setLoading={setLoading}
-          products={products}
-          collectedProducts={collectedProducts}
-          email={email}
-        />
+      <div className="flex sm:-mb-6 -mb-2 justify-between font-bold text-lg underline">
+        <div className="w-24 text-center">מוצר</div>
+        <div className="sm:w-24 w-10">כמות</div>
+        <div className="min-w-[50px]" />
+        <div className="min-w-[50px]" />
       </div>
 
+      <DND
+        setProducts={setProducts}
+        setList={setList}
+        setCollectedProducts={setCollectedProducts}
+        setLoading={setLoading}
+        products={products}
+        collectedProducts={collectedProducts}
+        email={email}
+      />
+
       <div className="flex gap-3 justify-center">
-        <button onClick={finishShopping}>סיום</button>
+        <button className="bg-[#faf79f]" onClick={finishShopping}>
+          סיום
+        </button>
         <button onClick={() => setOpen(true)}>הוסף מוצרים</button>
       </div>
     </div>

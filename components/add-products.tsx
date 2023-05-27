@@ -48,6 +48,7 @@ export default function AddProducts({
     if (arr.length === 0) {
       setLoading(false);
       setOpen(false);
+      setInputFields([{ name: "", quantity: NaN }]);
       return;
     }
 
@@ -63,6 +64,7 @@ export default function AddProducts({
 
     setLoading(false);
     setOpen(false);
+    setInputFields([{ name: "", quantity: NaN }]);
     setList(true);
   };
 
@@ -158,7 +160,9 @@ export default function AddProducts({
           >
             הוסף שורה
           </button>
-          <button onClick={addProducts}>שמור</button>
+          <button className="bg-[#49abb1]" onClick={addProducts}>
+            שמור
+          </button>
         </div>
 
         {loading && <h3>טוען...</h3>}
