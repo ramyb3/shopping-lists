@@ -44,11 +44,7 @@ export default function List({ email }: { email: string }) {
   }, [refresh]);
 
   return (
-    <div
-      className={`flex mt-14 ${
-        showHistory ? "justify-around flex-wrap gap-3 p-1" : "justify-center"
-      }`}
-    >
+    <div className={`mt-14 ${showHistory ? "" : "flex justify-center"}`}>
       {showHistory ? (
         <History
           email={email}
