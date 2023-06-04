@@ -139,7 +139,7 @@ export default function AddProducts({
                   className="sm:w-20 w-16"
                   onChange={(e) =>
                     handleFormChange(
-                      parseInt(e.target.value),
+                      parseFloat(e.target.value),
                       index,
                       "quantity"
                     )
