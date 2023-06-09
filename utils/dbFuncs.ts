@@ -69,6 +69,15 @@ export const saveProduct = async (obj: any) => {
   );
 };
 
+export const reorderList = async (obj: any) => { //
+  return await User.findOneAndUpdate(
+    { email: obj.email },
+    {
+      $set: { realTimeList: obj.products }
+    }
+  );
+};
+
 export const updateLists = async (obj: any) => {
   return await User.findOneAndUpdate(
     { email: obj.email },

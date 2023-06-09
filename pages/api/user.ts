@@ -7,6 +7,7 @@ import {
   updateLists,
   addProductToCollected,
   updateFirstTimeUser,
+  reorderList,
 } from "@/utils/dbFuncs";
 import type { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
@@ -26,6 +27,8 @@ export default async function handler(
     return await deleteProducts(req, res);
   } else if (req.body.method === "saveproducts") {
     return await saveProducts(req, res);
+  } else if (req.body.method === "reorderproducts") { //
+    return await reorderProducts(req, res);
   } else if (req.body.method === "finishshopping") {
     return await finishShopping(req, res);
   } else if (req.body.method === "addtocollected") {
@@ -95,6 +98,11 @@ const deleteProducts = async (req: NextApiRequest, res: NextApiResponse) => {
 
 const saveProducts = async (req: NextApiRequest, res: NextApiResponse) => {
   await saveProduct(req.body);
+  return res.json("");
+};
+
+const reorderProducts = async (req: NextApiRequest, res: NextApiResponse) => { //
+  await reorderList(req.body);
   return res.json("");
 };
 

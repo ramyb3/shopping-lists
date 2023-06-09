@@ -19,12 +19,22 @@ export default function DND({
   email: string;
   collectedProducts: Product[];
 }) {
-  const reorder = (e: any) => {
+  const reorder = async(e: any) => { //
+    setLoading(true);
+
     const result = Array.from(products);
     const [removed] = result.splice(e.source.index, 1);
     result.splice(e.destination.index, 0, removed);
 
+    try {
+      await fetchData(email, "reorderproducts", result);
+    } catch (e: any) {
+      console.error(e);
+    }
+
     setProducts(result);
+
+    setLoading(false);
   };
 
   const removeProduct = async (product: Product) => {
