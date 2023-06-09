@@ -15,6 +15,7 @@ export default function AddProducts({
   setOpen,
   setProducts,
   setList,
+  setChooseList,
   open,
   products,
   email,
@@ -23,6 +24,7 @@ export default function AddProducts({
   setOpen: any;
   setProducts: any;
   setList: any;
+  setChooseList: any;
   open: boolean;
   products: Product[];
   historyProducts: Product[];
@@ -93,6 +95,7 @@ export default function AddProducts({
       onClose={() => {
         if (!loading) {
           setOpen(false);
+          setChooseList(false);
         }
 
         setInputFields([{ name: "", quantity: NaN, unit: options[0] }]);
@@ -100,7 +103,10 @@ export default function AddProducts({
     >
       <figure
         className="absolute top-1 right-2 cursor-pointer"
-        onClick={() => setOpen(false)}
+        onClick={() => {
+          setOpen(false);
+          setChooseList(false);
+        }}
       >
         <FontAwesomeIcon icon={faXmark} size="xl" />
       </figure>

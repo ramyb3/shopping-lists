@@ -98,6 +98,7 @@ export default function List({ email }: { email: string }) {
         setOpen={setOpen}
         setProducts={setProducts}
         setList={setList}
+        setChooseList={setChooseList}
         open={open}
         products={products}
         email={email}
