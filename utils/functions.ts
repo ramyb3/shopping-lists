@@ -67,7 +67,7 @@ export async function fetchData(email: string, method: string, value?: any) {
 export async function sendMail(mailText: MailTemplate | null, text: string) {
   try {
     //@ts-ignore
-    // await axios.post(process.env.NEXT_PUBLIC_MAIL, { ...mailText, text });
+    await axios.post(process.env.NEXT_PUBLIC_MAIL, { ...mailText, text });
   } catch (e) {
     console.error(e);
   }
