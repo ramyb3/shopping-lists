@@ -101,14 +101,31 @@ export default function RealTimeList({
     setRefresh(true);
   };
 
+  const saveOrder = async () => {
+    setLoading(true);
+
+    try {
+      await fetchData(email, "reorderproducts", products);
+    } catch (e: any) {
+      console.error(e);
+    }
+
+    setLoading(false);
+  };
+
   return (
     <div className="flex flex-col sm:gap-6 gap-2 py-2 sm:px-2 px-0.5 border-2 rounded-md border-black sm:min-w-[500px] min-w-[98%]">
-      <button
-        className="self-center text-sm bg-[#e9c8d0] rounded-sm"
-        onClick={() => setRefresh(true)}
-      >
-        רענון רשימה
-      </button>
+      <div className="flex gap-2 justify-center">
+        <button
+          className="text-sm bg-[#e9c8d0] rounded-sm"
+          onClick={() => setRefresh(true)}
+        >
+          רענון רשימה
+        </button>
+        <button className="text-sm bg-[#e6cbaa] rounded-sm" onClick={saveOrder}>
+          שמור סידור מוצרים
+        </button>
+      </div>
 
       {loading && <h3>טוען...</h3>}
 

@@ -49,7 +49,7 @@ export function compareProductLists(
 export async function fetchData(email: string, method: string, value?: any) {
   const key = method.includes("sign")
     ? "num"
-    : method.includes("save") || method.includes("reorder") //
+    : method.includes("save") || method.includes("reorder")
     ? "products"
     : method.includes("delete") || method.includes("collected")
     ? "product"

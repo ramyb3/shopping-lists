@@ -27,7 +27,7 @@ export default async function handler(
     return await deleteProducts(req, res);
   } else if (req.body.method === "saveproducts") {
     return await saveProducts(req, res);
-  } else if (req.body.method === "reorderproducts") { //
+  } else if (req.body.method === "reorderproducts") {
     return await reorderProducts(req, res);
   } else if (req.body.method === "finishshopping") {
     return await finishShopping(req, res);
@@ -101,7 +101,7 @@ const saveProducts = async (req: NextApiRequest, res: NextApiResponse) => {
   return res.json("");
 };
 
-const reorderProducts = async (req: NextApiRequest, res: NextApiResponse) => { //
+const reorderProducts = async (req: NextApiRequest, res: NextApiResponse) => {
   await reorderList(req.body);
   return res.json("");
 };
