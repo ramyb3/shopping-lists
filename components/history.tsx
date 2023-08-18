@@ -30,7 +30,7 @@ export default function History({
       try {
         const resp = await fetchData(email, "gethistory");
 
-        setData(resp.data);
+        setData(resp.data.reverse());
       } catch (e: any) {
         console.error(e);
       }
