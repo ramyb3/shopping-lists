@@ -23,7 +23,7 @@ export default function MainPage() {
 
       if (resp) {
         setMailText(resp);
-        sendMail(resp, "Site Enter");
+        // sendMail(resp, "Site Enter");
       }
     };
 
@@ -52,7 +52,7 @@ export default function MainPage() {
         setAuthorized(true);
         setOpen(false);
 
-        await sendMail(mailText, `Logged in- ${email}`);
+        // await sendMail(mailText, `Logged in- ${email}`);
       }
     } catch (e) {
       alert("נסו שוב");
